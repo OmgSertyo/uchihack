@@ -6,7 +6,7 @@ function wildcard(str, rule) {
 }
 
 (async() => {
-    var root = "https://raw.githubusercontent.com/theairblow/hackpack/main/uchihack/";
+    var root = "https://raw.githubusercontent.com/OmgSertyo/uchihack/refs/heads/master/";
     var rawConfig = await fetch(root + "injector/config.json");
     var config = await rawConfig.json();
 
