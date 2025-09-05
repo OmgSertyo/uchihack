@@ -11,6 +11,7 @@ function main() {
     // Инитиальзация
     count = 0;
     isOld = false;
+    let isSolving = false;
 
     // ----------------------------------------------------------------------------------
     // Проверка на старую карточку
@@ -80,14 +81,32 @@ function main() {
     // Включить автоматическое решение
     function solve_all() {
         l_info("Автоматическое решение включено!");
+        isSolving = true;
         sessionStorage.setItem('solverUrl', location.href);
         sessionStorage.setItem('doSolve', 'true');
         sessionStorage.removeItem('solved'); // Убираем флаг solved при запуске решения
-        solve_current();
-        if (Card.Player.__score.current >= Card.Player.__score.total) // Помечаем карточку решенной
-            report_solve(); // если она решено xD
 
-        reload_on_sent();
+        // Решаем все задания в карточке
+        function solve_complete_card() {
+            if (Card.Player.__score.current < Card.Player.__score.total) {
+                solve_current();
+                // Ждем завершения AJAX и решаем следующее задание
+                setTimeout(solve_complete_card, 1000);
+            } else {
+                // Все задания решены, завершаем карточку
+                report_solve();
+                sessionStorage.setItem('solved', 'true');
+                isSolving = false;
+
+                // Перенаправляем после полного решения
+                setTimeout(() => {
+                    l_success("Вся карточка решена! Перенаправляем...");
+                    window.location.href = "https://uchi.ru/profile/students";
+                }, 2000);
+            }
+        }
+
+        solve_complete_card();
     }
 
     // ----------------------------------------------------------------------------------
@@ -118,7 +137,7 @@ function main() {
     // Статус
     color = "green";
 
-    if (sessionStorage.getItem('doSolve') === 'true' 
+    if (sessionStorage.getItem('doSolve') === 'true'
         && sessionStorage.getItem('solved') !== 'true'
         && sessionStorage.getItem('solverUrl') == location.href) {
         color = "orange";
@@ -130,12 +149,9 @@ function main() {
     else status = "Готов";
 
     // ----------------------------------------------------------------------------------
+    // Запускаем решение всей карточки
     solve_all();
     // ----------------------------------------------------------------------------------
-
-
-    l_success("Скрипт закончил свою работу!");
-    window.location.href = "https://uchi.ru/profile/students";
 
 };
 
