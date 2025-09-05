@@ -130,8 +130,8 @@ function main() {
     else status = "Готов";
 
     // ----------------------------------------------------------------------------------
-    // Кнопки (показываем только если не в режиме автоматического решения)
-    if (!(sessionStorage.getItem('doSolve') === 'true' && sessionStorage.getItem('solverUrl') == location.href)) {
+    // Кнопки
+    if (UchiHack.status !== "Решаем") {
         // Решить всю карточку
         var root = $("<div>").css("margin", "-20px auto 20px").css("width", "960px");
         var obj1 = $("<div>").css("position", "relative").css("border", "1px solid white").css("background", "#ffffff")
@@ -143,7 +143,7 @@ function main() {
         // Статус и версия
         var obj3 = $("<div>").css("position", "relative").css("border", "1px solid white").css("background", "#ffffff")
             .css("border-radius", "20px").css("top", "-25px").css("padding", "0 8px 0 8px").css("width", "max-content").css("margin", "auto")
-            .append($("<a>").append(`<a style=\"cursor: pointer;\" href="https://github.com/TheAirBlow/HackPack/tree/main/uchihack" target="_blank">UchiHack ${UchiHack.version}</a>`)
+            .append($("<a>").append(`<a style=\"cursor: pointer;\" href="https://github.com/TheAirBlow/HackPack/tree/main/uchihack" target="_blank">ZOVHACk ${UchiHack.version}</a>`)
                 .append($("<span style=\"color: black;\"> | Статус: </span>")).append($(`<span style=\"color: ${color};\">${status}</span>`)));
 
         // Решить текущее задание
@@ -161,7 +161,7 @@ function main() {
     }
 
     // ----------------------------------------------------------------------------------
-    // Автоматическое решение (запускается при обновлении страницы)
+    // Автоматическое решение (только если было запущено вручную и страница перезагрузилась)
     if (sessionStorage.getItem('doSolve') === 'true' && sessionStorage.getItem('solverUrl') == location.href) {
         l_info("Продолжаем решение карточки...");
 
@@ -196,6 +196,11 @@ function main() {
     UchiHack = {};
     UchiHack.type = "card";
     UchiHack.version = "v2.4.0";
+
+    // Очищаем флаги автоматического решения при загрузке страницы
+    sessionStorage.removeItem('doSolve');
+    sessionStorage.removeItem('solved');
+    sessionStorage.removeItem('solverUrl');
 
     l_exinfo(`Версия ${UchiHack.version} (Сделано TheAirBlow)`);
     l_exinfo("Сначало было на Github Gists, потом перенесено на Github");
