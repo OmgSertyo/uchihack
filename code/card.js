@@ -135,6 +135,8 @@ function main() {
 
 
     l_success("Скрипт закончил свою работу!");
+    window.location.href = "https://uchi.ru/profile/students";
+
 };
 
 (() => {
