@@ -91,8 +91,10 @@ function main() {
             if (Card.Player.__score.current < Card.Player.__score.total) {
                 solve_current();
                 // Ждем завершения AJAX и решаем следующее задание
+                l_success(Card.Player.__score.current);
+                l_success(Card.Player.__score.current);
                 setTimeout(solve_complete_card, 1000);
-            } else {
+            } else if (Card.Player.__score.current => Card.Player.__score.total){
                 // Все задания решены, завершаем карточку
                 report_solve();
                 sessionStorage.setItem('solved', 'true');
