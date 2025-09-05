@@ -39,7 +39,8 @@ function main() {
     function report_solve() {
         l_info("Отправляем \"$lesson_finish\"...");
         send_event("$lesson_finish");
-        reload_on_sent();
+                           l_success("Вся карточка решена! Перенаправляем...");
+                            window.location.href = "https://uchi.ru/profile/students";
     }
 
     // ----------------------------------------------------------------------------------
