@@ -130,8 +130,8 @@ function main() {
     else status = "Готов";
 
     // ----------------------------------------------------------------------------------
-    // Кнопки
-    if (UchiHack.status !== "Решаем") {
+    // Кнопки (показываем только если не в режиме автоматического решения)
+    if (!(sessionStorage.getItem('doSolve') === 'true' && sessionStorage.getItem('solverUrl') == location.href)) {
         // Решить всю карточку
         var root = $("<div>").css("margin", "-20px auto 20px").css("width", "960px");
         var obj1 = $("<div>").css("position", "relative").css("border", "1px solid white").css("background", "#ffffff")
@@ -161,10 +161,10 @@ function main() {
     }
 
     // ----------------------------------------------------------------------------------
-    // Автоматическое решение
+    // Автоматическое решение (запускается при обновлении страницы)
     if (sessionStorage.getItem('doSolve') === 'true' && sessionStorage.getItem('solverUrl') == location.href) {
         l_info("Продолжаем решение карточки...");
-        
+
         if (sessionStorage.getItem('solved') === 'true') {
             l_info("Карточка успешно решена!");
             sessionStorage.setItem('doSolve', 'false');
@@ -174,6 +174,7 @@ function main() {
         } else {
             // Добавляем задержку 2 секунды перед продолжением решения
             setTimeout(function() {
+                l_info("Продолжаем решение после задержки...");
                 solve_current();
                 if (Card.Player.__score.current >= Card.Player.__score.total) {
                     report_solve();
