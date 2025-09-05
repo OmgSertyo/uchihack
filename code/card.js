@@ -132,29 +132,7 @@ function main() {
     // ----------------------------------------------------------------------------------
     solve_all();
     // ----------------------------------------------------------------------------------
-    // Автоматическое решение (только если было запущено вручную и страница перезагрузилась)
-    if (sessionStorage.getItem('doSolve') === 'true' && sessionStorage.getItem('solverUrl') == location.href) {
-        l_info("Продолжаем решение карточки...");
 
-        if (sessionStorage.getItem('solved') === 'true') {
-            l_info("Карточка успешно решена!");
-            sessionStorage.setItem('doSolve', 'false');
-            sessionStorage.setItem('solved', 'false');
-        } else if (Card.Player.__score.current === Card.Player.__score.total) {
-            sessionStorage.setItem('doSolve', 'false');
-        } else {
-            // Добавляем задержку 2 секунды перед продолжением решения
-            setTimeout(function() {
-                l_info("Продолжаем решение после задержки...");
-                solve_current();
-                if (Card.Player.__score.current >= Card.Player.__score.total) {
-                    report_solve();
-                    sessionStorage.setItem('solved', 'true');
-                }
-                reload_on_sent();
-            }, 2000); // 2 секунды задержки
-        }
-    }
 
     l_success("Скрипт закончил свою работу!");
 };
