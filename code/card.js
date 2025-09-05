@@ -33,12 +33,16 @@ function main() {
 
     // ----------------------------------------------------------------------------------
     // Пометить карточку решенной
-    function report_solve() {
-        l_info("Отправляем \"$lesson_finish\"...");
-        send_event("$lesson_finish");
+function report_solve() {
+    l_info("Отправляем \"$lesson_finish\"...");
+    send_event("$lesson_finish");
+
+    // Задержка 1 секунда перед перенаправлением
+    setTimeout(() => {
         l_success("Вся карточка решена! Перенаправляем...");
         window.location.href = "https://uchi.ru/profile/students";
-    }
+    }, 1000); // 1000 миллисекунд = 1 секунда
+}
 
     // ----------------------------------------------------------------------------------
     // Получить Score JSON
